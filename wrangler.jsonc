@@ -3,7 +3,7 @@
   "name": "narouweb1",
   "compatibility_date": "2025-02-18",
   "main":"./src/index.tsx",
-  "assets": {"directory": "./dist"},
+  // "assets": {"directory": "./dist"},
   "compatibility_flags": [
     "nodejs_compat"
   ]
