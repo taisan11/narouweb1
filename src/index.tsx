@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { renderer } from './renderer'
-import { titlegetter } from './getters'
+import { atobungetter, honbungetter, maebungetter, titlegetter } from './getters'
+import { cache } from './cache'
 
 const app = new Hono()
 
@@ -36,11 +37,14 @@ app.get("/:ncode", async (c) => {
 app.get("/:ncode/:chapter{[0-9]+}", async (c) => {
   const { ncode, chapter } = c.req.param()
   const base = await fetch(`https://ncode.syosetu.com/${ncode}/${chapter}/`,{headers:{"User-Agent":"Mozilla/5.0"}})
-  const title = titlegetter(await base.text())
+  const basetext = await base.text()
+  const title = cache(`${ncode}/${chapter}/title`, titlegetter(basetext))
+  const maebun = cache(`${ncode}/${chapter}/mae`, maebungetter(basetext))
+  const honbun = cache(`${ncode}/${chapter}/hon`, honbungetter(basetext))
+  const atobun = cache(`${ncode}/${chapter}/ato`, atobungetter(basetext))
   return c.render(<>
     <h1>{title}</h1>
-    <h2>{"wip:章名"}</h2>
-    <p>{"wip:本文"}</p>
+    <div __dangerouslySetInnerHTML={honbun}></div>
   </>)
 })
 
