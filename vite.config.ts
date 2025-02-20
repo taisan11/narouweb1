@@ -1,7 +1,8 @@
 import build from '@hono/vite-build/cloudflare-workers'
-import devServer from '@hono/vite-dev-server'
-import adapter from '@hono/vite-dev-server/cloudflare'
+import devServer from '@hono/vite-dev-server';
+import cloudflareAdapter from '@hono/vite-dev-server/cloudflare';
 import { defineConfig } from 'vite'
+import {getPlatformProxy} from "wrangler"
 
 export default defineConfig({
   css:{
@@ -10,8 +11,8 @@ export default defineConfig({
   plugins: [
     build(),
     devServer({
-      adapter:adapter(),
-      entry: 'src/index.tsx',
-    })
+      entry: 'src/index.tsx', // あなたのエントリーポイントに合わせてください
+      adapter: cloudflareAdapter,
+    }),
   ]
 })

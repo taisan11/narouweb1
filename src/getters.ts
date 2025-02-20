@@ -1,9 +1,5 @@
-export function titlegetter(doc:Response):string {
-    let title = "";
-    new HTMLRewriter().on('h1[class="p-novel__title p-novel__title--rensai"]', {
-        text: (text) => {
-            title = text.text;
-        }
-    }).transform(doc);
-    return title;
+import {parse} from "node-html-parser"
+
+export function titlegetter(html:string):string {
+    return parse(html).querySelector("body > div.l-container > main > article > h1")?.text!;
 }

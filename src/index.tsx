@@ -36,7 +36,7 @@ app.get("/:ncode", async (c) => {
 app.get("/:ncode/:chapter{[0-9]+}", async (c) => {
   const { ncode, chapter } = c.req.param()
   const base = await fetch(`https://ncode.syosetu.com/${ncode}/${chapter}/`,{headers:{"User-Agent":"Mozilla/5.0"}})
-  const title = titlegetter(base)
+  const title = titlegetter(await base.text())
   return c.render(<>
     <h1>{title}</h1>
     <h2>{"wip:章名"}</h2>
