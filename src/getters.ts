@@ -5,7 +5,7 @@ export function titlegetter(html:string):string {
 }
 
 export function maebungetter(html:string):string {
-    return parse(html).querySelector("body > div.l-container > main > article > div.p-novel__body > div.js-novel-text.p-novel__text.p-novel__text--preface")?.innerHTML!;
+    return parse(html).querySelector("body > div.l-container > main > article > div.p-novel__body > div.js-novel-text.p-novel__text.p-novel__text--preface")?.innerHTML||"";
 }
 
 export function honbungetter(html:string):string {
@@ -13,5 +13,5 @@ export function honbungetter(html:string):string {
 }
 
 export function atobungetter(html:string):string {
-    return parse(html).querySelector("body > div.l-container > main > article > div.p-novel__body > div:nth-child(3)")?.innerHTML!;
+    return parse(html).querySelector("body > div.l-container > main > article > div.p-novel__body > div:nth-child(3)")?.innerHTML||"";
 }
