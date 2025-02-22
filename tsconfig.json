@@ -8,6 +8,10 @@
     "lib": [
       "ESNext"
     ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*":["app/*"]
+    },
     "types": [
       "@cloudflare/workers-types/2023-07-01",
       "vite/client"

@@ -1,18 +1,26 @@
 import build from '@hono/vite-build/cloudflare-pages'
-import cloudflareAdapter from '@hono/vite-dev-server/cloudflare';
-import honox from "honox/vite"
-import {cloudflare} from "@cloudflare/vite-plugin"
+import cloudflare from '@hono/vite-dev-server/cloudflare'
 import { defineConfig } from 'vite'
+import honox from "honox/vite"
 
-export default defineConfig(({mode}) => {
-  console.log("mode", mode)
+export default defineConfig(({ command }) => {
+  const isDev = command === 'serve'; // 開発環境なら true, ビルドなら false
+
   return {
     css: {
-      transformer: "lightningcss"as"lightningcss"
+      transformer: "lightningcss"
+    },
+    resolve: {
+      alias: {
+        "@": new URL("app", import.meta.url).pathname
+      }
     },
     plugins: [
-      honox({ devServer: { adapter: cloudflareAdapter } }),
-      build(),
-    ]
-  }
-})
+      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },external:["node-html-parser"] }),
+      build({})
+    ],
+    ssr:{
+      noExternal: ['node-html-parser']
+    }
+  };
+});
