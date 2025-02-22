@@ -1,22 +1,18 @@
-// import build from '@hono/vite-build/cloudflare-workers'
-// import devServer from '@hono/vite-dev-server';
-// import cloudflareAdapter from '@hono/vite-dev-server/cloudflare';
+import build from '@hono/vite-build/cloudflare-pages'
+import cloudflareAdapter from '@hono/vite-dev-server/cloudflare';
+import honox from "honox/vite"
 import {cloudflare} from "@cloudflare/vite-plugin"
 import { defineConfig } from 'vite'
-import {getPlatformProxy} from "wrangler"
 
-export default defineConfig({
-  css:{
-    transformer:"lightningcss"
-  },
-  plugins: [
-    // build(),
-    // devServer({
-    //   entry: 'src/index.tsx', // あなたのエントリーポイントに合わせてください
-    //   adapter: cloudflareAdapter,
-    // }),
-    cloudflare({
-      configPath:"./wrangler.jsonc",
-    })
-  ]
+export default defineConfig(({mode}) => {
+  console.log("mode", mode)
+  return {
+    css: {
+      transformer: "lightningcss"as"lightningcss"
+    },
+    plugins: [
+      honox({ devServer: { adapter: cloudflareAdapter } }),
+      build(),
+    ]
+  }
 })
